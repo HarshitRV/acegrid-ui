@@ -2,7 +2,7 @@ export default function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="p-4 border-t">
+    <footer className="border-t p-4">
       <p className="text-center">
         &copy; {year} HarshitRV. All rights reserved.
       </p>

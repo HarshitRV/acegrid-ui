@@ -8,6 +8,8 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import Footer from '../components/footer'
 import Header from '../components/header'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import appCss from '../styles.css?url'
 
@@ -24,7 +26,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'AceGrid',
       },
     ],
     links: [
@@ -38,6 +40,8 @@ export const Route = createRootRoute({
   notFoundComponent: NotFound,
 })
 
+const queryClient = new QueryClient()
+
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -47,19 +51,27 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <Header />
-        {children}
-        <Footer />
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
-          }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
+        <QueryClientProvider client={queryClient}>
+          <div className="relative h-full min-h-0 overflow-y-auto">
+            {children}
+          </div>
+          <Footer />
+          <TanStackDevtools
+            config={{
+              position: 'bottom-right',
+            }}
+            plugins={[
+              {
+                name: 'Tanstack Router',
+                render: <TanStackRouterDevtoolsPanel />,
+              },
+              {
+                name: 'React Query',
+                render: <ReactQueryDevtools />,
+              },
+            ]}
+          />
+        </QueryClientProvider>
         <Scripts />
       </body>
     </html>
@@ -69,14 +81,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 function NotFound() {
   return (
     <main className="flex flex-1 flex-col items-center justify-center px-4 py-24 text-center">
-      <p className="text-7xl font-extrabold tracking-tight text-primary">404</p>
+      <p className="text-primary text-7xl font-extrabold tracking-tight">404</p>
       <h1 className="mt-4 text-2xl font-bold sm:text-3xl">Page not found</h1>
-      <p className="mt-2 max-w-md text-muted-foreground">
+      <p className="text-muted-foreground mt-2 max-w-md">
         Sorry, the page you're looking for doesn't exist or has been moved.
       </p>
       <Link
         to="/"
-        className="mt-8 inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+        className="bg-primary text-primary-foreground hover:bg-primary/90 mt-8 inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors"
       >
         Go back home
       </Link>
