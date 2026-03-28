@@ -2,10 +2,10 @@ export default function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer>
-        <p>
-          &copy; {year} HarshitRV. All rights reserved.
-        </p>
+    <footer className="p-4 border-t">
+      <p className="text-center">
+        &copy; {year} HarshitRV. All rights reserved.
+      </p>
     </footer>
   )
 }

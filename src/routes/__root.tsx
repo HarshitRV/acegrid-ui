@@ -1,8 +1,13 @@
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import {
+  HeadContent,
+  Link,
+  Scripts,
+  createRootRoute,
+} from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-import Footer from '../components/Footer'
-import Header from '../components/Header'
+import Footer from '../components/footer'
+import Header from '../components/header'
 
 import appCss from '../styles.css?url'
 
@@ -30,6 +35,7 @@ export const Route = createRootRoute({
     ],
   }),
   shellComponent: RootDocument,
+  notFoundComponent: NotFound,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
@@ -57,5 +63,23 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
+  )
+}
+
+function NotFound() {
+  return (
+    <main className="flex flex-1 flex-col items-center justify-center px-4 py-24 text-center">
+      <p className="text-7xl font-extrabold tracking-tight text-primary">404</p>
+      <h1 className="mt-4 text-2xl font-bold sm:text-3xl">Page not found</h1>
+      <p className="mt-2 max-w-md text-muted-foreground">
+        Sorry, the page you're looking for doesn't exist or has been moved.
+      </p>
+      <Link
+        to="/"
+        className="mt-8 inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+      >
+        Go back home
+      </Link>
+    </main>
   )
 }
