@@ -51,12 +51,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <Header />
         <QueryClientProvider client={queryClient}>
+          <Header />
           <div className="relative h-full min-h-0 overflow-y-auto">
             {children}
           </div>
-          <Toaster position='top-right' />
+          <Toaster position="top-right" />
           <Footer />
           <TanStackDevtools
             config={{
