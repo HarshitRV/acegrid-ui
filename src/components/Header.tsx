@@ -11,11 +11,11 @@ import ThemeToggle from './theme-toggle'
 
 export default function Header() {
   return (
-    <header className="p-4 border-b">
+    <header className="border-b p-4">
       <div className="flex items-center justify-between">
         <Link
           to="/"
-          className="flex items-center gap-2 font-semibold text-primary"
+          className="text-primary flex items-center gap-2 font-semibold"
         >
           <BookOpen className="h-5 w-5" />
           <span>Ace Grid</span>

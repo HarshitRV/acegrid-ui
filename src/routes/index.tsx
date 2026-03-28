@@ -1,3 +1,4 @@
+import MainContent from '#/components/reusable/main-content'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { BookOpen, ChevronRight, Target, Zap } from 'lucide-react'
 
@@ -5,38 +6,38 @@ export const Route = createFileRoute('/')({ component: App })
 
 function App() {
   return (
-    <main className="flex flex-col justify-evenly">
+    <MainContent>
       <Hero />
       <Features />
-    </main>
+    </MainContent>
   )
 }
 
 function Hero() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-20 text-center">
-      <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium text-muted-foreground mb-6">
-        <Zap className="h-3 w-3 text-primary" />
+      <div className="text-muted-foreground mb-6 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium">
+        <Zap className="text-primary h-3 w-3" />
         Free practice · No signup required to browse
       </div>
-      <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl mb-4">
+      <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
         Ace your exam with{' '}
         <span className="text-primary">focused MCQ practice</span>
       </h1>
-      <p className="mx-auto max-w-xl text-lg text-muted-foreground mb-8">
+      <p className="text-muted-foreground mx-auto mb-8 max-w-xl text-lg">
         Chapter-wise, timed multiple-choice tests for UPSC, JEE, NEET, CAT and
         more. Simple interface. Zero distraction.
       </p>
-      <div className="flex items-center justify-center gap-3 flex-wrap">
+      <div className="flex flex-wrap items-center justify-center gap-3">
         <Link
           to="/courses"
-          className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors"
         >
           Browse Courses <ChevronRight className="h-4 w-4" />
         </Link>
         <Link
           to="/signup"
-          className="inline-flex items-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-semibold hover:bg-muted transition-colors"
+          className="hover:bg-muted inline-flex items-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-semibold transition-colors"
         >
           Create free account
         </Link>
@@ -48,31 +49,31 @@ function Hero() {
 function Features() {
   return (
     <section>
-      <div className="mx-auto max-w-6xl px-4 py-16 grid grid-cols-1 gap-8 sm:grid-cols-3">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 py-16 sm:grid-cols-3">
         {[
           {
-            icon: <Target className="h-5 w-5 text-primary" />,
+            icon: <Target className="text-primary h-5 w-5" />,
             title: 'Focused Practice',
             desc: 'Distraction-free MCQ interface with instant feedback.',
           },
           {
-            icon: <Zap className="h-5 w-5 text-primary" />,
+            icon: <Zap className="text-primary h-5 w-5" />,
             title: 'Timed Tests',
             desc: 'Realistic exam conditions with auto-submit on timeout.',
           },
           {
-            icon: <BookOpen className="h-5 w-5 text-primary" />,
+            icon: <BookOpen className="text-primary h-5 w-5" />,
             title: 'Multi-Exam Platform',
             desc: 'One platform for UPSC, JEE, NEET, CAT and more.',
           },
         ].map((f) => (
           <div key={f.title} className="flex gap-4">
-            <div className="mt-1 rounded-md bg-primary/10 p-2 h-fit">
+            <div className="bg-primary/10 mt-1 h-fit rounded-md p-2">
               {f.icon}
             </div>
             <div>
-              <h3 className="font-semibold mb-1">{f.title}</h3>
-              <p className="text-sm text-muted-foreground">{f.desc}</p>
+              <h3 className="mb-1 font-semibold">{f.title}</h3>
+              <p className="text-muted-foreground text-sm">{f.desc}</p>
             </div>
           </div>
         ))}
@@ -118,7 +119,7 @@ export function Categories() {
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-16">
-      <h2 className="text-2xl font-bold mb-2">Explore by exam category</h2>
+      <h2 className="mb-2 text-2xl font-bold">Explore by exam category</h2>
       <p className="text-muted-foreground mb-8">
         Pick your target and start practising today.
       </p>
@@ -127,13 +128,13 @@ export function Categories() {
           <Link
             key={cat.slug}
             to={`/courses`}
-            className="group flex flex-col items-center gap-2 rounded-xl border p-4 text-center hover:border-primary hover:bg-primary/5 transition-all"
+            className="group hover:border-primary hover:bg-primary/5 flex flex-col items-center gap-2 rounded-xl border p-4 text-center transition-all"
           >
             <span className="text-3xl">{cat.emoji}</span>
-            <span className="text-sm font-medium group-hover:text-primary transition-colors">
+            <span className="group-hover:text-primary text-sm font-medium transition-colors">
               {cat.name}
             </span>
-            <span className="text-xs text-muted-foreground">{cat.exams}</span>
+            <span className="text-muted-foreground text-xs">{cat.exams}</span>
           </Link>
         ))}
       </div>
