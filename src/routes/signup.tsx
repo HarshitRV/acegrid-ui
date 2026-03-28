@@ -9,11 +9,7 @@ export const Route = createFileRoute('/signup')({
 function SignUp() {
   return (
     <MainContent>
-      <Auth
-        type="register"
-        title="Join AceGrid"
-        description="Create an account to continue your practice"
-      />
+      <Auth type="register" />
     </MainContent>
   )
 }
