@@ -35,3 +35,16 @@ export async function register({
     ),
   )
 }
+
+export async function me(authToken: string): Promise<User.AuthResponse> {
+  return fetchApi(
+    axios.get<User.AuthResponse>(`${authUrl}/me`, {
+      headers: getHeaders([
+        {
+          key: 'Authorization',
+          value: `Bearer ${authToken}`,
+        },
+      ]),
+    }),
+  )
+}
