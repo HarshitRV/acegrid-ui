@@ -9,11 +9,7 @@ export const Route = createFileRoute('/login')({
 function Login() {
   return (
     <MainContent>
-      <Auth
-        type="login"
-        title="Welcome back"
-        description="Log in to continue your practice"
-      />
+      <Auth type="login" />
     </MainContent>
   )
 }
