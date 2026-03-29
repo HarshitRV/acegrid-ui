@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { PaginatedResponseSchema } from './pagination'
 
 export const CourseCategorySchema = z.enum([
   'government',
@@ -26,3 +27,7 @@ export const CourseSchema = z.object({
 })
 
 export type Course = z.infer<typeof CourseSchema>
+
+export const CoursesResponseSchema = PaginatedResponseSchema(CourseSchema)
+
+export type CoursesResponse = z.infer<typeof CoursesResponseSchema>

@@ -4,5 +4,6 @@ import * as Exam from './exam'
 import * as Question from './question'
 import * as Attempt from './attempt'
 import * as Error from './error'
+import * as Pagination from './pagination'
 
-export { User, Course, Exam, Question, Attempt, Error }
+export { User, Course, Exam, Question, Attempt, Error, Pagination }
