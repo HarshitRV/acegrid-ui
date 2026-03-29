@@ -1,6 +1,6 @@
 import type { User } from '#/types'
 import axios from 'axios'
-import { fetchApi, getApiUrl, getHeaders } from '../api'
+import { fetchApi, getApiUrl, getHeaders } from '#/services/api'
 
 const authUrl = `${getApiUrl()}/auth`
 

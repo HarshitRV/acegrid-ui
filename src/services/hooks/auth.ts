@@ -5,7 +5,7 @@ import {
   useMutation,
   useQuery,
 } from '@tanstack/react-query'
-import client from '../client'
+import client from '#/services/client'
 import { SESSION_STORAGE_AUTH_TOKEN_KEY } from '#/constants'
 
 export const useLogin = () =>
@@ -24,6 +24,8 @@ export const getUserQueryOptions = (authToken: string | null) =>
   queryOptions({
     queryKey: ['user', { authToken }],
     queryFn: authToken ? () => client.auth.me(authToken) : skipToken,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
   })
 
 export const useAuth = () => {

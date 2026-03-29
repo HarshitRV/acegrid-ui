@@ -1,6 +1,7 @@
 import type { AxiosPromise } from 'axios'
 import axios from 'axios'
 import type { HeaderOptions } from './types'
+import { SESSION_STORAGE_AUTH_TOKEN_KEY } from '#/constants'
 
 export const getApiUrl = (version: `v${number}` = 'v1') => {
   return `${import.meta.env.VITE_API_URL}/${version}/api`
@@ -18,6 +19,20 @@ export const getHeaders = (
   })
 
   return headers
+}
+
+export const getAuthorizationHeaders = () => {
+  const authToken =
+    typeof window !== 'undefined'
+      ? sessionStorage.getItem(SESSION_STORAGE_AUTH_TOKEN_KEY)
+      : null
+
+  return getHeaders([
+    {
+      key: 'Authorization',
+      value: `Bearer ${authToken}`,
+    },
+  ])
 }
 
 /**
