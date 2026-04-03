@@ -14,3 +14,13 @@ export const ExamSchema = z.object({
 })
 
 export type Exam = z.infer<typeof ExamSchema>
+
+export const ExamBodySchema = z.object({
+    courseId: z.string(),
+    title: z.string().min(2),
+    description: z.string().optional(),
+    duration: z.number().int().positive(),
+    totalMarks: z.number().int().positive(),
+});
+
+export type ExamBody = z.infer<typeof ExamBodySchema>

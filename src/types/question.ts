@@ -16,7 +16,7 @@ export const QuestionSchema = z.object({
   correctIndex: z.number().int().min(0).max(3).nullable(),
   /** null when gated */
   explanation: z.string().nullable(),
-  isFree: z.boolean(),
+  isFree: z.boolean().default(true),
   tags: z.array(z.string()),
   order: z.number().int().nonnegative(),
 })
