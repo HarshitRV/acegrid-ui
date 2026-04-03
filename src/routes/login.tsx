@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import MainContent from '#/components/reusable/main-content'
+import MainContent from '#/components/reusable/containers/main-content'
 import Auth from '#/components/auth/auth'
 
 export const Route = createFileRoute('/login')({

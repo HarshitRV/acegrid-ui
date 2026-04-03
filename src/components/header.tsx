@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/navigation-menu'
 import { Link, useNavigate } from '@tanstack/react-router'
 import {
-  BookOpen,
   LayoutDashboard,
   GraduationCap,
   Loader2,
@@ -28,8 +27,8 @@ export default function Header() {
           to="/"
           className="text-primary flex items-center gap-2 font-semibold"
         >
-          <BookOpen className="h-5 w-5" />
-          <span>Ace Grid</span>
+          <img src="/favicon.svg" alt="AceGrid Logo" className="h-6 w-6" />
+          <span>AceGrid</span>
         </Link>
         <div className="flex items-center gap-2">
           <AuthNav />
