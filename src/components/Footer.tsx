@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="border-t p-4">
       <p className="text-center">
-        &copy; {year} HarshitRV. All rights reserved.
+        &copy; {year} AceGrid. All rights reserved.
       </p>
     </footer>
   )

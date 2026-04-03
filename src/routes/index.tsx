@@ -1,4 +1,4 @@
-import MainContent from '#/components/reusable/main-content'
+import MainContent from '#/components/reusable/containers/main-content'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { BookOpen, ChevronRight, Target, Zap } from 'lucide-react'
 
