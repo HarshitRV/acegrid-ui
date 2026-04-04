@@ -21,9 +21,9 @@ export const CourseSchema = z.object({
   __v: z.number(),
   title: z.string(),
   slug: z.string(),
-  description: z.string(),
+  description: z.string().optional(),
   category: CourseCategorySchema,
-  tags: z.array(z.string()),
+  tags: z.array(z.string()).optional(),
   examCount: z.number().int().nonnegative(),
   coverImage: z.url().optional(),
   createdAt: z.iso.datetime(),
@@ -35,6 +35,10 @@ export type Course = z.infer<typeof CourseSchema>
 export const CoursesResponseSchema = PaginatedResponseSchema(CourseSchema)
 
 export type CoursesResponse = z.infer<typeof CoursesResponseSchema>
+
+export const CourseByIdResponseSchema = CourseSchema.omit({ examCount: true })
+
+export type CourseByIdResponse = z.infer<typeof CourseByIdResponseSchema>
 
 export const CourseBodySchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters").max(50, "Title cannot exceed 50 characters"),

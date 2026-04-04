@@ -18,6 +18,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminCoursesIndexRouteImport } from './routes/admin/courses/index'
 import { Route as AdminCoursesAddRouteImport } from './routes/admin/courses/add'
+import { Route as AdminCoursesCourseIdRouteImport } from './routes/admin/courses/$courseId'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -64,6 +65,11 @@ const AdminCoursesAddRoute = AdminCoursesAddRouteImport.update({
   path: '/courses/add',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminCoursesCourseIdRoute = AdminCoursesCourseIdRouteImport.update({
+  id: '/courses/$courseId',
+  path: '/courses/$courseId',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -73,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/courses/$courseId': typeof AdminCoursesCourseIdRoute
   '/admin/courses/add': typeof AdminCoursesAddRoute
   '/admin/courses/': typeof AdminCoursesIndexRoute
 }
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/courses/$courseId': typeof AdminCoursesCourseIdRoute
   '/admin/courses/add': typeof AdminCoursesAddRoute
   '/admin/courses': typeof AdminCoursesIndexRoute
 }
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/courses/$courseId': typeof AdminCoursesCourseIdRoute
   '/admin/courses/add': typeof AdminCoursesAddRoute
   '/admin/courses/': typeof AdminCoursesIndexRoute
 }
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/admin/'
+    | '/admin/courses/$courseId'
     | '/admin/courses/add'
     | '/admin/courses/'
   fileRoutesByTo: FileRoutesByTo
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/admin'
+    | '/admin/courses/$courseId'
     | '/admin/courses/add'
     | '/admin/courses'
   id:
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/admin/'
+    | '/admin/courses/$courseId'
     | '/admin/courses/add'
     | '/admin/courses/'
   fileRoutesById: FileRoutesById
@@ -207,17 +219,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCoursesAddRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/courses/$courseId': {
+      id: '/admin/courses/$courseId'
+      path: '/courses/$courseId'
+      fullPath: '/admin/courses/$courseId'
+      preLoaderRoute: typeof AdminCoursesCourseIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
   }
 }
 
 interface AdminRouteRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminCoursesCourseIdRoute: typeof AdminCoursesCourseIdRoute
   AdminCoursesAddRoute: typeof AdminCoursesAddRoute
   AdminCoursesIndexRoute: typeof AdminCoursesIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
+  AdminCoursesCourseIdRoute: AdminCoursesCourseIdRoute,
   AdminCoursesAddRoute: AdminCoursesAddRoute,
   AdminCoursesIndexRoute: AdminCoursesIndexRoute,
 }

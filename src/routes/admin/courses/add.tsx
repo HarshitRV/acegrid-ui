@@ -4,17 +4,17 @@ import { StickyPageLayout } from '#/components/reusable/containers/sticky-page-l
 import { Button } from '#/components/ui/button'
 import { courseKeys, useAddCourse } from '#/services/hooks/courses'
 
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ChevronLeft } from 'lucide-react'
 import { toast } from 'sonner'
 import type { Course } from '#/types'
 import { useQueryClient } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/admin/courses/add')({
-  component: AdminCoursesAdd,
+  component: AddCourse,
 })
 
-function AdminCoursesAdd() {
+function AddCourse() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { mutate, isPending } = useAddCourse()
@@ -42,11 +42,13 @@ function AdminCoursesAdd() {
           title="Add Course"
           description="Add a new course to the platform."
         >
-          <Link to="/admin/courses">
-            <Button variant="default" size="lg">
-              <ChevronLeft className="mr-2 h-4 w-4" /> Courses List
-            </Button>
-          </Link>
+          <Button
+            variant="default"
+            size="lg"
+            onClick={() => navigate({ to: '/admin/courses' })}
+          >
+            <ChevronLeft className="mr-2 h-4 w-4" /> Courses List
+          </Button>
         </AdminCourseHeader>
       }
       footer={
@@ -60,11 +62,14 @@ function AdminCoursesAdd() {
           >
             {isPending ? 'Saving...' : 'Save'}
           </Button>
-          <Link to="/admin/courses">
-            <Button variant="outline" size="lg" disabled={isPending}>
-              Cancel
-            </Button>
-          </Link>
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => navigate({ to: '/admin/courses' })}
+            disabled={isPending}
+          >
+            Cancel
+          </Button>
         </div>
       }
     >
