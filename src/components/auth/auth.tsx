@@ -1,5 +1,4 @@
 import { Link, useNavigate } from '@tanstack/react-router'
-import { useForm, useStore } from '@tanstack/react-form'
 import { LoginInputSchema, RegisterInputSchema } from '#/types/user'
 import { useLogin, useRegister } from '#/services/hooks/auth'
 import { Button } from '#/components/ui/button'
@@ -11,15 +10,11 @@ import {
   CardHeader,
   CardTitle,
 } from '#/components/ui/card'
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from '#/components/ui/field'
-import { Input } from '#/components/ui/input'
+import { FieldGroup } from '#/components/ui/field'
 import { toast } from 'sonner'
 import { useEffect } from 'react'
+import { useAppForm } from '../ui/app-form'
+import { SESSION_STORAGE_AUTH_TOKEN_KEY } from '#/constants'
 
 interface AuthProps {
   type: 'login' | 'register'
@@ -44,32 +39,26 @@ export default function Auth({ type }: AuthProps) {
 
   useEffect(() => {
     if (error) {
-      toast.error(error.message)
+      toast.error(error.message, {
+        duration: Number.POSITIVE_INFINITY,
+        closeButton: true,
+      })
     }
   }, [error])
 
-  const form = useForm({
-    defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-    },
+  const form = useAppForm({
+    defaultValues: authContent.defaultValues,
     validators: {
-      onSubmit: ({ value }) => {
-        const result = authContent.validationSchema.safeParse(value)
-
-        if (!result.success) {
-          return (
-            JSON.parse(result.error.message)[0].message || 'Validation failed'
-          )
-        }
-      },
+      onSubmit: authContent.validationSchema,
     },
     onSubmit: async ({ value }) => {
-      if (type === 'login') {
-        loginMutation(value, {
+      if (type === 'register' && value.name) {
+        registerMutation(value, {
           onSuccess: (data) => {
-            sessionStorage.setItem('auth_token', data.accessToken)
+            sessionStorage.setItem(
+              SESSION_STORAGE_AUTH_TOKEN_KEY,
+              data.accessToken,
+            )
             navigate({ to: '/' })
           },
         })
@@ -77,16 +66,17 @@ export default function Auth({ type }: AuthProps) {
         return
       }
 
-      registerMutation(value, {
+      loginMutation(value, {
         onSuccess: (data) => {
-          sessionStorage.setItem('auth_token', data.accessToken)
+          sessionStorage.setItem(
+            SESSION_STORAGE_AUTH_TOKEN_KEY,
+            data.accessToken,
+          )
           navigate({ to: '/' })
         },
       })
     },
   })
-
-  const onSubmitError = useStore(form.store, (state) => state.errorMap.onSubmit)
 
   return (
     <Card className="w-full max-w-sm">
@@ -96,12 +86,6 @@ export default function Auth({ type }: AuthProps) {
       </CardHeader>
 
       <CardContent>
-        {onSubmitError && (
-          <div className="bg-destructive/10 text-destructive mb-4 rounded-md px-3 py-2 text-sm">
-            {onSubmitError}
-          </div>
-        )}
-
         <form
           id={`${type}-form`}
           onSubmit={(e) => {
@@ -111,77 +95,47 @@ export default function Auth({ type }: AuthProps) {
         >
           <FieldGroup>
             {type === 'register' && (
-              <form.Field
+              <form.AppField
                 name="name"
                 children={(field) => {
                   return (
-                    <Field>
-                      <FieldLabel htmlFor="name">
-                        Name <span className="text-destructive">*</span>
-                      </FieldLabel>
-                      <Input
-                        id="name"
-                        name={field.name}
-                        type="text"
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        placeholder="Your name"
-                        autoComplete="name"
-                        required
-                      />
-                    </Field>
+                    <field.TextField
+                      label="Name"
+                      placeholder="Your name"
+                      autoComplete="name"
+                      required
+                    />
                   )
                 }}
               />
             )}
-            <form.Field
+            <form.AppField
               name="email"
               children={(field) => {
                 return (
-                  <Field>
-                    <FieldLabel htmlFor="login-email">
-                      Email <span className="text-destructive">*</span>
-                    </FieldLabel>
-                    <Input
-                      id="login-email"
-                      name={field.name}
-                      type="email"
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      placeholder="you@example.com"
-                      autoComplete="email"
-                      required
-                    />
-                  </Field>
+                  <field.TextField
+                    label="Email"
+                    type="email"
+                    placeholder="you@example.com"
+                    autoComplete="email"
+                    required
+                  />
                 )
               }}
             />
 
-            <form.Field
+            <form.AppField
               name="password"
               children={(field) => {
                 return (
-                  <Field>
-                    <FieldLabel htmlFor="login-password">
-                      Password <span className="text-destructive">*</span>
-                    </FieldLabel>
-                    <Input
-                      id="login-password"
-                      name={field.name}
-                      type="password"
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      placeholder="••••••••"
-                      autoComplete="current-password"
-                      required
-                    />
-                    <FieldDescription>
-                      Must be at least 8 characters.
-                    </FieldDescription>
-                  </Field>
+                  <field.TextField
+                    label="Password"
+                    type="password"
+                    placeholder="••••••••"
+                    description="Must be at least 8 characters."
+                    autoComplete="current-password"
+                    required
+                  />
                 )
               }}
             />
@@ -224,6 +178,10 @@ const getAuthContent = (type: AuthProps['type']) => {
         linkText: 'Sign up',
         linkTo: '/signup',
         validationSchema: LoginInputSchema,
+        defaultValues: {
+          email: '',
+          password: '',
+        },
       }
     case 'register':
       return {
@@ -234,6 +192,11 @@ const getAuthContent = (type: AuthProps['type']) => {
         linkText: 'Log in',
         linkTo: '/login',
         validationSchema: RegisterInputSchema,
+        defaultValues: {
+          name: '',
+          email: '',
+          password: '',
+        },
       }
   }
 }

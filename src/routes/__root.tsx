@@ -8,6 +8,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import Footer from '#/components/footer'
 import Header from '#/components/header'
+import { GlobalModalProvider } from '#/components/ui/global-modal'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Toaster } from '#/components/ui/sonner'
@@ -62,6 +63,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             {children}
           </div>
           <Toaster position="top-right" />
+          <GlobalModalProvider />
           <Footer />
           <TanStackDevtools
             config={{
