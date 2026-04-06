@@ -93,7 +93,7 @@ function EditCourse() {
         </div>
       }
     >
-      <AdminCourseForm formValues={courseData} onSubmit={handleUpdateCourse} />
+      <AdminCourseForm formValues={courseData.course} onSubmit={handleUpdateCourse} />
     </StickyPageLayout>
   )
 }

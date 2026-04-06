@@ -58,7 +58,7 @@ export const useUpdateCourse = () => {
     mutationFn: ({ id, body }: { id: string, body: CourseBody }) => client.courses.updateCourse(id, body),
     onSuccess: (updatedCourse) => {
       /** Update the course in the cache, not invalidating the query, saves a refetch */
-      queryClient.setQueryData(courseKeys.detail(updatedCourse._id), updatedCourse)
+      queryClient.setQueryData(courseKeys.detail(updatedCourse.course._id), updatedCourse)
       queryClient.invalidateQueries({ queryKey: courseKeys.lists() })
     },
   })

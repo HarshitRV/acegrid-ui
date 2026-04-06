@@ -40,7 +40,7 @@ export function CourseCard({ course }: CourseCardProps) {
 
         <CardFooter className="justify-between">
           <div className="flex flex-wrap gap-1">
-            {course.tags.slice(0, MAX_VISIBLE_TAGS).map((tag) => (
+            {(course.tags || []).slice(0, MAX_VISIBLE_TAGS).map((tag) => (
               <Badge
                 key={tag}
                 variant="secondary"

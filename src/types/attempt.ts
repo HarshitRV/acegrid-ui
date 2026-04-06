@@ -29,7 +29,24 @@ export const AttemptSchema = z.object({
 export type Attempt = z.infer<typeof AttemptSchema>
 
 export const SubmitAttemptInputSchema = z.object({
-  answers: z.array(AnswerSchema),
+  attemptId: z.string(),
+  answers: z.array(AnswerSchema).min(1),
 })
 
 export type SubmitAttemptInput = z.infer<typeof SubmitAttemptInputSchema>
+
+export const PopulatedExamSchema = z.object({
+  _id: z.string(),
+  title: z.string(),
+  courseId: z.string(),
+  duration: z.number(),
+  totalMarks: z.number(),
+})
+
+export type PopulatedExam = z.infer<typeof PopulatedExamSchema>
+
+export const AttemptWithExamSchema = AttemptSchema.omit({ examId: true }).extend({
+  examId: PopulatedExamSchema,
+})
+
+export type AttemptWithExam = z.infer<typeof AttemptWithExamSchema>
