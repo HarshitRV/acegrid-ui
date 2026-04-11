@@ -8,7 +8,6 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
 import { Link, useNavigate } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
 import {
   LayoutDashboard,
   GraduationCap,
@@ -17,8 +16,9 @@ import {
   Shield,
 } from 'lucide-react'
 import ThemeToggle from './theme-toggle'
-import { useAuth } from '#/services/hooks/auth'
+import { authKeys, useAuth } from '#/services/hooks/auth'
 import { SESSION_STORAGE_AUTH_TOKEN_KEY } from '#/constants'
+import { useQueryClient } from '@tanstack/react-query'
 
 export default function Header() {
   return (
@@ -42,25 +42,20 @@ export default function Header() {
 }
 
 function UserNav() {
+  const queryClient = useQueryClient()
   const { user, isFetching } = useAuth()
   const navigate = useNavigate()
-  const [isMounted, setIsMounted] = useState(false)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
 
   const handleLogout = () => {
     typeof window !== 'undefined'
       ? sessionStorage.removeItem(SESSION_STORAGE_AUTH_TOKEN_KEY)
       : null
+
+    queryClient.setQueryData(authKeys.all, null)
+
     navigate({
       to: '/',
     })
-  }
-
-  if (!isMounted) {
-    return null
   }
 
   if (isFetching) {

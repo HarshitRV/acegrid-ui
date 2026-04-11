@@ -10,6 +10,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '#/components/ui/select'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '#/components/ui/tooltip'
+import { Info } from 'lucide-react'
 
 export const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts()
@@ -105,12 +111,16 @@ export function SelectField({
   required,
   options,
   groupLabel,
+  disabled,
+  info,
 }: {
   label: React.ReactNode
   placeholder?: string
   required?: boolean
   options: { label: string; value: string }[]
   groupLabel?: string
+  disabled?: boolean
+  info?: string
 }) {
   const field = useFieldContext<string>()
   const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
@@ -119,12 +129,23 @@ export function SelectField({
     <Field>
       <FieldLabel htmlFor={field.name}>
         {label} {required && <span className="text-destructive">*</span>}
+        {info && (
+          <Tooltip>
+            <TooltipTrigger>
+              <Info className="text-muted-foreground size-4" />
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>{info}</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
       </FieldLabel>
       <Select
         required={required}
         name={field.name}
         value={field.state.value}
         onValueChange={(value) => field.handleChange(value)}
+        disabled={disabled}
       >
         <SelectTrigger id={field.name}>
           <SelectValue placeholder={placeholder} />
@@ -144,6 +165,55 @@ export function SelectField({
     </Field>
   )
 }
+export function NumberField({
+  label,
+  placeholder,
+  required = false,
+  description,
+  min,
+  max,
+  step,
+}: {
+  label: React.ReactNode
+  placeholder?: string
+  required?: boolean
+  description?: React.ReactNode
+  min?: number
+  max?: number
+  step?: number | 'any'
+}) {
+  const field = useFieldContext<number | undefined>()
+  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+
+  return (
+    <Field>
+      <FieldLabel htmlFor={field.name}>
+        {label} {required && <span className="text-destructive">*</span>}
+      </FieldLabel>
+      <Input
+        id={field.name}
+        name={field.name}
+        type="number"
+        value={field.state.value ?? ''}
+        onBlur={field.handleBlur}
+        onChange={(e) => {
+          const val = e.target.value
+          field.handleChange(val === '' ? undefined : Number(val))
+        }}
+        aria-invalid={isInvalid}
+        placeholder={placeholder}
+        required={required}
+        min={min}
+        max={max}
+        step={step}
+      />
+      {description && (
+        <div className="text-muted-foreground text-sm">{description}</div>
+      )}
+      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+    </Field>
+  )
+}
 
 export const { useAppForm, withForm } = createFormHook({
   fieldContext,
@@ -152,6 +222,7 @@ export const { useAppForm, withForm } = createFormHook({
     TextField,
     TagField,
     SelectField,
+    NumberField,
   },
   formComponents: {},
 })

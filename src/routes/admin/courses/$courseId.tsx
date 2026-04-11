@@ -2,6 +2,7 @@ import { AdminCourseForm } from '#/components/admin/admin-courses/admin-course-f
 import { AdminHeader } from '#/components/admin/admin-header'
 import { StickyPageLayout } from '#/components/reusable/containers/sticky-page-layout'
 import { Button } from '#/components/ui/button'
+import { formIdMap } from '#/constants'
 import {
   getCourseByIdQueryOptions,
   useUpdateCourse,
@@ -11,6 +12,8 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ChevronLeft, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
+
+const courseFormId = formIdMap.courseForm.id
 
 export const Route = createFileRoute('/admin/courses/$courseId')({
   component: EditCourse,
@@ -67,7 +70,7 @@ function EditCourse() {
           <Button
             variant="default"
             size="lg"
-            form="add-course-form"
+            form={courseFormId}
             type="submit"
             disabled={isUpdatePending}
           >
@@ -87,6 +90,7 @@ function EditCourse() {
       <AdminCourseForm
         formValues={courseData.course}
         onSubmit={handleUpdateCourse}
+        formId={courseFormId}
       />
     </StickyPageLayout>
   )
