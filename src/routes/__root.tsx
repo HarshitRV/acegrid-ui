@@ -12,6 +12,7 @@ import { GlobalModalProvider } from '#/components/ui/global-modal'
 import type { QueryClient } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Toaster } from '#/components/ui/sonner'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 import appCss from '#/styles.css?url'
 import { DefaultCatchBoundary } from '#/components/default-catch-boundary'
@@ -76,7 +77,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         <Header />
         <div className="relative h-full min-h-0 overflow-y-auto">
-          {children}
+          <TooltipProvider>{children}</TooltipProvider>
         </div>
         <Toaster position="top-right" />
         <GlobalModalProvider />

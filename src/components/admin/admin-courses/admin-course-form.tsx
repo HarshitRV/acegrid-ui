@@ -14,11 +14,13 @@ const defaultValues: Course.CourseBody = {
 
 interface AdminCourseFormProps {
   onSubmit: (value: Course.CourseBody) => void
+  formId: string
   formValues?: Course.CourseBody
 }
 
 export function AdminCourseForm({
   onSubmit,
+  formId,
   formValues,
 }: AdminCourseFormProps) {
   const form = useAppForm({
@@ -35,7 +37,7 @@ export function AdminCourseForm({
     <Card className="mt-4">
       <CardContent>
         <form
-          id="add-course-form"
+          id={formId}
           className="mt-4"
           onSubmit={(e) => {
             e.preventDefault()

@@ -1,13 +1,5 @@
-import {
-  getCoursesQueryOptions,
-  useDeleteCourse,
-} from '#/services/hooks/courses'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import type { Course } from '#/types/course'
-import type { ColumnDef } from '@tanstack/react-table'
+import { Button } from '#/components/ui/button'
 import { DataTable } from '#/components/ui/data-table'
-import { Loader2, MoreVertical } from 'lucide-react'
-import { Button } from '../../ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,22 +7,31 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '#/components/ui/dropdown-menu'
-import { useNavigate } from '@tanstack/react-router'
 import { modal } from '#/components/ui/global-modal'
+import { getExamsQueryOptions, useDeleteExam } from '#/services/hooks/exam'
+import type { Exam } from '#/types'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
+import type { ColumnDef } from '@tanstack/react-table'
+import { Loader2, MoreVertical } from 'lucide-react'
 import { toast } from 'sonner'
 
-const columns: ColumnDef<Course>[] = [
+const columns: ColumnDef<Exam.Exam>[] = [
   {
     accessorKey: 'title',
     header: 'Title',
   },
   {
-    accessorKey: 'category',
-    header: 'Category',
+    accessorKey: 'duration',
+    header: 'Duration',
   },
   {
-    accessorKey: 'examCount',
-    header: 'Exam Count',
+    accessorKey: 'totalMarks',
+    header: 'Total Marks',
+  },
+  {
+    accessorKey: 'questionCount',
+    header: 'Questions',
   },
   {
     accessorKey: 'createdAt',
@@ -44,12 +45,12 @@ const columns: ColumnDef<Course>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => <CourseActionsCell course={row.original} />,
+    cell: ({ row }) => <ExamActionCell exam={row.original} />,
   },
 ]
 
-export function AdminCourseTable() {
-  const { data } = useSuspenseQuery(getCoursesQueryOptions())
+export function AdminExamTable() {
+  const { data } = useSuspenseQuery(getExamsQueryOptions())
 
   return (
     <div className="mt-6">
@@ -58,14 +59,14 @@ export function AdminCourseTable() {
   )
 }
 
-function CourseActionsCell({ course }: { course: Course }) {
+function ExamActionCell({ exam }: { exam: Exam.Exam }) {
   const navigate = useNavigate()
-  const { mutateAsync: deleteCourse } = useDeleteCourse()
+  const { mutateAsync: deleteExam } = useDeleteExam()
 
-  const handleDeleteCourse = async () => {
+  const handleDeleteExam = async () => {
     modal.update({
-      title: 'Deleting course',
-      description: 'Please wait while we delete this course.',
+      title: 'Deleting exam',
+      description: 'Please wait while we delete this exam.',
       body: (
         <div className="flex items-center gap-2 text-sm">
           <Loader2 className="h-4 w-4 animate-spin" />
@@ -80,13 +81,13 @@ function CourseActionsCell({ course }: { course: Course }) {
     })
 
     try {
-      await deleteCourse(course._id)
+      await deleteExam(exam._id)
       modal.close()
-      toast.success('Course deleted')
+      toast.success('Exam deleted')
     } catch (error) {
       modal.close()
       toast.error(
-        error instanceof Error ? error.message : 'Unable to delete course',
+        error instanceof Error ? error.message : 'Unable to delete exam',
         {
           duration: Number.POSITIVE_INFINITY,
           closeButton: true,
@@ -102,7 +103,7 @@ function CourseActionsCell({ course }: { course: Course }) {
       body: (
         <p className="text-muted-foreground text-sm">
           This will permanently delete{' '}
-          <span className="text-foreground font-medium">{course.title}</span>.
+          <span className="text-foreground font-medium">{exam.title}</span>.
         </p>
       ),
       showCloseButton: false,
@@ -113,7 +114,7 @@ function CourseActionsCell({ course }: { course: Course }) {
           <Button variant="outline" onClick={close}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={handleDeleteCourse}>
+          <Button variant="destructive" onClick={handleDeleteExam}>
             Delete
           </Button>
         </>
@@ -132,7 +133,7 @@ function CourseActionsCell({ course }: { course: Course }) {
       <DropdownMenuContent>
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuItem
-          onSelect={() => navigate({ to: `/admin/courses/${course._id}` })}
+          onSelect={() => navigate({ to: `/admin/exams/${exam._id}` })}
         >
           Edit
         </DropdownMenuItem>

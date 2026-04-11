@@ -12,11 +12,9 @@ export const QuestionSchema = z.object({
   examId: z.string(),
   text: z.string(),
   options: z.array(QuestionOptionSchema).length(4),
-  /** null when gated (not purchased) */
   correctIndex: z.number().int().min(0).max(3).nullable(),
-  /** null when gated */
   explanation: z.string().nullable(),
-  isFree: z.boolean().default(true),
+  isFree: z.boolean(),
   tags: z.array(z.string()),
   order: z.number().int().nonnegative(),
 })

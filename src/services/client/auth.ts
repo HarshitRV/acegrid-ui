@@ -24,7 +24,6 @@ export async function register({
   email,
   password,
 }: User.RegisterInput): Promise<User.AuthResponse> {
-  console.log('called')
   return fetchApi(
     axios.post<User.AuthResponse>(
       `${authUrl}/register`,
