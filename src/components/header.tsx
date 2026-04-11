@@ -8,6 +8,7 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
 import { Link, useNavigate } from '@tanstack/react-router'
+import { useEffect, useState } from 'react'
 import {
   LayoutDashboard,
   GraduationCap,
@@ -43,6 +44,11 @@ export default function Header() {
 function UserNav() {
   const { user, isFetching } = useAuth()
   const navigate = useNavigate()
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const handleLogout = () => {
     typeof window !== 'undefined'
@@ -51,6 +57,10 @@ function UserNav() {
     navigate({
       to: '/',
     })
+  }
+
+  if (!isMounted) {
+    return null
   }
 
   if (isFetching) {
