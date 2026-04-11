@@ -1,30 +1,40 @@
-import { AdminCourseForm } from '#/components/admin-courses/admin-course-form'
-import { AdminCourseHeader } from '#/components/admin-courses/admin-course-header'
+import { AdminCourseForm } from '#/components/admin/admin-courses/admin-course-form'
+import { AdminHeader } from '#/components/admin/admin-header'
 import { StickyPageLayout } from '#/components/reusable/containers/sticky-page-layout'
 import { Button } from '#/components/ui/button'
-import { useCourseById, useUpdateCourse } from '#/services/hooks/courses'
+import {
+  getCourseByIdQueryOptions,
+  useUpdateCourse,
+} from '#/services/hooks/courses'
 import type { Course } from '#/types'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ChevronLeft, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 
 export const Route = createFileRoute('/admin/courses/$courseId')({
   component: EditCourse,
+  loader: ({ params: { courseId }, context: { queryClient } }) => {
+    return queryClient.ensureQueryData(getCourseByIdQueryOptions(courseId))
+  },
+  pendingComponent: () => (
+    <div className="flex h-[50vh] flex-col items-center justify-center space-y-4">
+      <Loader2 className="text-primary h-8 w-8 animate-spin" />
+      <p className="text-muted-foreground text-sm">Loading course...</p>
+    </div>
+  ),
 })
 
 function EditCourse() {
   const navigate = useNavigate()
   const { courseId } = Route.useParams()
-  const {
-    data: courseData,
-    isPending: isGetCoursePending,
-    error,
-  } = useCourseById(courseId)
+  const courseQuery = useSuspenseQuery(getCourseByIdQueryOptions(courseId))
+  const courseData = courseQuery.data
   const { mutate: updateCourse, isPending: isUpdatePending } = useUpdateCourse()
 
   const handleUpdateCourse = (value: Course.CourseBody) => {
     updateCourse(
-      { id: courseId, body: value },
+      { id: courseData.course._id, body: value },
       {
         onSuccess: () => {
           toast.success('Course updated')
@@ -39,29 +49,10 @@ function EditCourse() {
     )
   }
 
-  if (isGetCoursePending) {
-    return (
-      <div className="flex items-center justify-center">
-        <Loader2 className="h-4 w-4 animate-spin" />
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center">
-        <p>Error: {error.message}</p>
-      </div>
-    )
-  }
-
   return (
     <StickyPageLayout
       header={
-        <AdminCourseHeader
-          title="Edit Course"
-          description="Edit course details."
-        >
+        <AdminHeader title="Edit Course" description="Edit course details.">
           <Button
             variant="default"
             size="lg"
@@ -69,7 +60,7 @@ function EditCourse() {
           >
             <ChevronLeft className="mr-2 h-4 w-4" /> Courses List
           </Button>
-        </AdminCourseHeader>
+        </AdminHeader>
       }
       footer={
         <div className="flex justify-start gap-2">
@@ -93,7 +84,10 @@ function EditCourse() {
         </div>
       }
     >
-      <AdminCourseForm formValues={courseData.course} onSubmit={handleUpdateCourse} />
+      <AdminCourseForm
+        formValues={courseData.course}
+        onSubmit={handleUpdateCourse}
+      />
     </StickyPageLayout>
   )
 }

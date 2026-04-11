@@ -45,7 +45,9 @@ export const PopulatedExamSchema = z.object({
 
 export type PopulatedExam = z.infer<typeof PopulatedExamSchema>
 
-export const AttemptWithExamSchema = AttemptSchema.omit({ examId: true }).extend({
+export const AttemptWithExamSchema = AttemptSchema.omit({
+  examId: true,
+}).extend({
   examId: PopulatedExamSchema,
 })
 

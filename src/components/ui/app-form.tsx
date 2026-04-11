@@ -49,7 +49,9 @@ export function TextField({
         required={required}
         autoComplete={autoComplete}
       />
-      {description && <div className="text-sm text-muted-foreground">{description}</div>}
+      {description && (
+        <div className="text-muted-foreground text-sm">{description}</div>
+      )}
       {isInvalid && <FieldError errors={field.state.meta.errors} />}
     </Field>
   )

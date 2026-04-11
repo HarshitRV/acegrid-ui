@@ -4,7 +4,7 @@ interface AdminCourseHeaderProps {
   children: React.ReactNode
 }
 
-export function AdminCourseHeader({
+export function AdminHeader({
   title,
   description,
   children,

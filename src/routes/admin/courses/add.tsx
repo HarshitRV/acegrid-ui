@@ -1,5 +1,5 @@
-import { AdminCourseForm } from '#/components/admin-courses/admin-course-form'
-import { AdminCourseHeader } from '#/components/admin-courses/admin-course-header'
+import { AdminCourseForm } from '#/components/admin/admin-courses/admin-course-form'
+import { AdminCourseHeader } from '#/components/admin/admin-courses/admin-course-header'
 import { StickyPageLayout } from '#/components/reusable/containers/sticky-page-layout'
 import { Button } from '#/components/ui/button'
 import { courseKeys, useAddCourse } from '#/services/hooks/courses'

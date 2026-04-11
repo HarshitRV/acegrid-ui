@@ -4,9 +4,9 @@ export const ApiErrorSchema = z.object({
   statusCode: z.number(),
   message: z.string(),
   error: z.object({
-      code: z.string(),
-      message: z.string(),
-      details: z.unknown().optional(),
+    code: z.string(),
+    message: z.string(),
+    details: z.unknown().optional(),
   }),
 })
 

@@ -17,7 +17,10 @@ interface AdminCourseFormProps {
   formValues?: Course.CourseBody
 }
 
-export function AdminCourseForm({ onSubmit, formValues }: AdminCourseFormProps) {
+export function AdminCourseForm({
+  onSubmit,
+  formValues,
+}: AdminCourseFormProps) {
   const form = useAppForm({
     defaultValues: formValues || defaultValues,
     validators: {

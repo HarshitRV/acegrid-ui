@@ -1,29 +1,39 @@
-import { AdminCourseHeader } from '#/components/admin-courses/admin-course-header'
-import { AdminCourseTable } from '#/components/admin-courses/admin-course-table'
+import { AdminHeader } from '#/components/admin/admin-header'
+import { AdminCourseTable } from '#/components/admin/admin-courses/admin-course-table'
 import { Button } from '#/components/ui/button'
-import { useCourses } from '#/services/hooks/courses'
+import { getCoursesQueryOptions } from '#/services/hooks/courses'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { PlusIcon } from 'lucide-react'
+import { PlusIcon, Loader2 } from 'lucide-react'
 
 export const Route = createFileRoute('/admin/courses/')({
   component: AdminCourses,
+  loader: ({ context: { queryClient } }) =>
+    queryClient.ensureQueryData(getCoursesQueryOptions()),
+  pendingComponent: () => (
+    <div className="flex h-[50vh] flex-col items-center justify-center space-y-4">
+      <Loader2 className="text-primary h-8 w-8 animate-spin" />
+      <p className="text-muted-foreground text-sm">Loading courses...</p>
+    </div>
+  ),
 })
 
 function AdminCourses() {
-  const { data } = useCourses()
+  const coursesQuery = useSuspenseQuery(getCoursesQueryOptions())
+  const courses = coursesQuery.data
 
   return (
     <main>
-      <AdminCourseHeader
+      <AdminHeader
         title="Courses"
-        description={`${data?.data.length ?? 0} courses total`}
+        description={`${courses.data.length} courses total`}
       >
         <Link to="/admin/courses/add">
           <Button variant="default" size="lg">
             <PlusIcon className="mr-2 h-4 w-4" /> New Course
           </Button>
         </Link>
-      </AdminCourseHeader>
+      </AdminHeader>
       <AdminCourseTable />
     </main>
   )

@@ -171,7 +171,9 @@ export function GlobalModalProvider() {
         {renderModalSlot(options.body, controls)}
 
         {(options.footer || options.showFooterCloseButton) && (
-          <DialogFooter showCloseButton={options.showFooterCloseButton ?? false}>
+          <DialogFooter
+            showCloseButton={options.showFooterCloseButton ?? false}
+          >
             {renderModalSlot(options.footer, controls)}
           </DialogFooter>
         )}

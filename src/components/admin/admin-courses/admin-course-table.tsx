@@ -1,9 +1,13 @@
-import { useCourses, useDeleteCourse } from '#/services/hooks/courses'
+import {
+  getCoursesQueryOptions,
+  useDeleteCourse,
+} from '#/services/hooks/courses'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import type { Course } from '#/types/course'
 import type { ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '#/components/ui/data-table'
 import { Loader2, MoreVertical } from 'lucide-react'
-import { Button } from '../ui/button'
+import { Button } from '../../ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -57,8 +61,9 @@ function CourseActionsCell({ course }: { course: Course }) {
       title: 'Delete course?',
       description: 'Are you sure you want to delete this?',
       body: (
-        <p className="text-sm text-muted-foreground">
-          This will permanently delete <span className="font-medium text-foreground">{course.title}</span>.
+        <p className="text-muted-foreground text-sm">
+          This will permanently delete{' '}
+          <span className="text-foreground font-medium">{course.title}</span>.
         </p>
       ),
       showCloseButton: false,
@@ -130,24 +135,7 @@ const columns: ColumnDef<Course>[] = [
 ]
 
 export function AdminCourseTable() {
-  const { data, isPending, error, refetch } = useCourses()
-
-  if (isPending) {
-    return (
-      <div className="flex items-center justify-center">
-        <Loader2 className="h-4 w-4 animate-spin" />
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center">
-        <p>{error.message}</p>
-        <Button onClick={() => refetch()}>Retry</Button>
-      </div>
-    )
-  }
+  const { data } = useSuspenseQuery(getCoursesQueryOptions())
 
   return (
     <div className="mt-6">

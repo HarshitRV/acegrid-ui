@@ -1,6 +1,16 @@
 import axios from 'axios'
-import { fetchApi, getApiUrl, getAuthorizationHeaders, getHeaders } from '#/services/api'
-import type { CourseBody, CourseByIdResponse, CourseCategory, CoursesResponse } from '#/types/course'
+import {
+  fetchApi,
+  getApiUrl,
+  getAuthorizationHeaders,
+  getHeaders,
+} from '#/services/api'
+import type {
+  CourseBody,
+  CourseByIdResponse,
+  CourseCategory,
+  CoursesResponse,
+} from '#/types/course'
 
 const coursesUrl = `${getApiUrl()}/courses`
 const adminCourseUrl = `${getApiUrl()}/admin/courses`

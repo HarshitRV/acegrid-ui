@@ -1,15 +1,23 @@
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
-import { BookOpen } from 'lucide-react';
+import { BookOpen, FileText } from 'lucide-react'
 
 export const Route = createFileRoute('/admin')({
   component: AdminLayout,
 })
 
 const navItems = [
-    { to: "/admin/courses", label: "Courses", icon: <BookOpen className="h-4 w-4" /> },
-    // { to: "/admin/exams", label: "Exams", icon: <FileText className="h-4 w-4" /> },
-    // { to: "/admin/questions", label: "Questions", icon: <HelpCircle className="h-4 w-4" /> },
-];
+  {
+    to: '/admin/courses',
+    label: 'Courses',
+    icon: <BookOpen className="h-4 w-4" />,
+  },
+  {
+    to: '/admin/exams',
+    label: 'Exams',
+    icon: <FileText className="h-4 w-4" />,
+  },
+  // { to: "/admin/questions", label: "Questions", icon: <HelpCircle className="h-4 w-4" /> },
+]
 
 function AdminLayout() {
   return (
@@ -23,7 +31,7 @@ function AdminLayout() {
             <Link
               key={item.to}
               to={item.to}
-              className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors text-muted-foreground hover:bg-muted hover:text-foreground [&.active]:bg-primary [&.active]:text-primary-foreground [&.active]:hover:bg-primary [&.active]:hover:text-primary-foreground"
+              className="text-muted-foreground hover:bg-muted hover:text-foreground [&.active]:bg-primary [&.active]:text-primary-foreground [&.active]:hover:bg-primary [&.active]:hover:text-primary-foreground flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
             >
               {item.icon}
               {item.label}
@@ -31,7 +39,7 @@ function AdminLayout() {
           ))}
         </nav>
       </aside>
-      <main className="flex-1 px-6 py-8 overflow-auto">
+      <main className="flex-1 overflow-auto px-6 py-8">
         <Outlet />
       </main>
     </div>
