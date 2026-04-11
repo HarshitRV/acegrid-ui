@@ -4,6 +4,7 @@ import { FieldGroup } from '#/components/ui/field'
 import { useAppForm } from '#/components/ui/app-form'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { getCoursesQueryOptions } from '#/services/hooks/courses'
+import type { AdminFormProps } from '#/components/admin/form-props'
 
 const defaultValues: Exam.AdminCreateExamBody = {
   courseId: '',
@@ -13,11 +14,7 @@ const defaultValues: Exam.AdminCreateExamBody = {
   totalMarks: 1,
 }
 
-interface AdminExamFormProps {
-  onSubmit: (value: Exam.AdminCreateExamBody) => void
-  formId: string
-  formValues?: Exam.AdminCreateExamBody
-}
+type AdminExamFormProps = AdminFormProps<Exam.AdminCreateExamBody>
 
 export function AdminExamForm({
   onSubmit,

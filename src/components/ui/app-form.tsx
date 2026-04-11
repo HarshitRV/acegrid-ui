@@ -20,6 +20,41 @@ import { Info } from 'lucide-react'
 export const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts()
 
+type BaseFieldProps = {
+  label: React.ReactNode
+  placeholder?: string
+  required?: boolean
+}
+
+type DescribedFieldProps = BaseFieldProps & {
+  description?: React.ReactNode
+}
+
+type TextFieldProps = DescribedFieldProps & {
+  type?: React.HTMLInputTypeAttribute
+  autoComplete?: string
+}
+
+type TagFieldProps = BaseFieldProps
+
+type SelectOption = {
+  label: string
+  value: string
+}
+
+type SelectFieldProps = BaseFieldProps & {
+  options: SelectOption[]
+  groupLabel?: string
+  disabled?: boolean
+  info?: string
+}
+
+type NumberFieldProps = DescribedFieldProps & {
+  min?: number
+  max?: number
+  step?: number | 'any'
+}
+
 export function TextField({
   label,
   placeholder,
@@ -27,14 +62,7 @@ export function TextField({
   type = 'text',
   description,
   autoComplete,
-}: {
-  label: React.ReactNode
-  placeholder?: string
-  required?: boolean
-  type?: React.HTMLInputTypeAttribute
-  description?: React.ReactNode
-  autoComplete?: string
-}) {
+}: TextFieldProps) {
   const field = useFieldContext<string>()
   const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
@@ -67,11 +95,7 @@ export function TagField({
   label,
   placeholder,
   required,
-}: {
-  label: React.ReactNode
-  placeholder?: string
-  required?: boolean
-}) {
+}: TagFieldProps) {
   const field = useFieldContext<string[] | undefined>()
   const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
@@ -113,15 +137,7 @@ export function SelectField({
   groupLabel,
   disabled,
   info,
-}: {
-  label: React.ReactNode
-  placeholder?: string
-  required?: boolean
-  options: { label: string; value: string }[]
-  groupLabel?: string
-  disabled?: boolean
-  info?: string
-}) {
+}: SelectFieldProps) {
   const field = useFieldContext<string>()
   const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
@@ -173,15 +189,7 @@ export function NumberField({
   min,
   max,
   step,
-}: {
-  label: React.ReactNode
-  placeholder?: string
-  required?: boolean
-  description?: React.ReactNode
-  min?: number
-  max?: number
-  step?: number | 'any'
-}) {
+}: NumberFieldProps) {
   const field = useFieldContext<number | undefined>()
   const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 

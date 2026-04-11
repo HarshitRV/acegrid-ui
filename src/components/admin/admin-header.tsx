@@ -1,5 +1,6 @@
-interface AdminCourseHeaderProps {
-  title: string
+import type { TitleDescriptionProps } from '#/components/reusable/common-props'
+
+type AdminHeaderProps = Omit<TitleDescriptionProps, 'description'> & {
   description: string
   children: React.ReactNode
 }
@@ -8,7 +9,7 @@ export function AdminHeader({
   title,
   description,
   children,
-}: AdminCourseHeaderProps) {
+}: AdminHeaderProps) {
   return (
     <div className="flex items-center justify-between">
       <div>

@@ -1,7 +1,6 @@
-interface PageHeaderProps {
-  title: string
-  description?: string
-}
+import type { TitleDescriptionProps } from '#/components/reusable/common-props'
+
+type PageHeaderProps = TitleDescriptionProps
 
 export function PageHeader({ title, description }: PageHeaderProps) {
   return (

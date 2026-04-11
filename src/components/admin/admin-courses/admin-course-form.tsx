@@ -2,6 +2,7 @@ import { Card, CardContent } from '#/components/ui/card'
 import { Course } from '#/types'
 import { FieldGroup } from '#/components/ui/field'
 import { useAppForm } from '#/components/ui/app-form'
+import type { AdminFormProps } from '#/components/admin/form-props'
 
 const defaultValues: Course.CourseBody = {
   title: '',
@@ -12,11 +13,7 @@ const defaultValues: Course.CourseBody = {
   coverImage: undefined,
 }
 
-interface AdminCourseFormProps {
-  onSubmit: (value: Course.CourseBody) => void
-  formId: string
-  formValues?: Course.CourseBody
-}
+type AdminCourseFormProps = AdminFormProps<Course.CourseBody>
 
 export function AdminCourseForm({
   onSubmit,

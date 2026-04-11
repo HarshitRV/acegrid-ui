@@ -1,9 +1,8 @@
 import { SearchX } from 'lucide-react'
+import type { TitleDescriptionProps } from '#/components/reusable/common-props'
 
-interface EmptyStateProps {
+type EmptyStateProps = Partial<TitleDescriptionProps> & {
   icon?: React.ReactNode
-  title?: string
-  description?: string
 }
 
 export function EmptyState({
