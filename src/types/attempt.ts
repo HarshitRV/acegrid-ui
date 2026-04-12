@@ -28,12 +28,27 @@ export const AttemptSchema = z.object({
 })
 export type Attempt = z.infer<typeof AttemptSchema>
 
+export const StartAttemptInputSchema = z.object({
+  examId: z.string(),
+})
+export type StartAttemptInput = z.infer<typeof StartAttemptInputSchema>
+
+export const StartAttemptResponseSchema = z.object({
+  attempt: AttemptSchema,
+})
+export type StartAttemptResponse = z.infer<typeof StartAttemptResponseSchema>
+
 export const SubmitAttemptInputSchema = z.object({
   attemptId: z.string(),
   answers: z.array(AnswerSchema).min(1),
 })
 
 export type SubmitAttemptInput = z.infer<typeof SubmitAttemptInputSchema>
+
+export const SubmitAttemptResponseSchema = z.object({
+  attempt: AttemptSchema,
+})
+export type SubmitAttemptResponse = z.infer<typeof SubmitAttemptResponseSchema>
 
 export const PopulatedExamSchema = z.object({
   _id: z.string(),
@@ -52,3 +67,17 @@ export const AttemptWithExamSchema = AttemptSchema.omit({
 })
 
 export type AttemptWithExam = z.infer<typeof AttemptWithExamSchema>
+
+export const GetAttemptsHistoryResponseSchema = z.object({
+  attempts: z.array(AttemptWithExamSchema),
+})
+export type GetAttemptsHistoryResponse = z.infer<
+  typeof GetAttemptsHistoryResponseSchema
+>
+
+export const GetAttemptByIdResponseSchema = z.object({
+  attempt: AttemptWithExamSchema,
+})
+export type GetAttemptByIdResponse = z.infer<
+  typeof GetAttemptByIdResponseSchema
+>

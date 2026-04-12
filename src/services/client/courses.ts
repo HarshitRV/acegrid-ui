@@ -29,6 +29,14 @@ export function getAllCourses({ category }: { category?: CourseCategory }) {
   )
 }
 
+export function getCourseBySlug(slug: string) {
+  return fetchApi(
+    axios.get<CourseByIdResponse>(`${coursesUrl}/${slug}`, {
+      headers: getHeaders(),
+    }),
+  )
+}
+
 export function getCourseById(id: string) {
   return fetchApi(
     axios.get<CourseByIdResponse>(`${adminCourseUrl}/${id}`, {

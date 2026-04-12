@@ -19,7 +19,8 @@ interface CourseCardProps {
 export function CourseCard({ course }: CourseCardProps) {
   return (
     <Link
-      to="/courses"
+      to="/courses/$courseSlug"
+      params={{ courseSlug: course.slug }}
       className="block rounded-lg transition-all *:h-full hover:shadow-sm"
     >
       <Card className="group hover:ring-primary h-full justify-between transition-all">

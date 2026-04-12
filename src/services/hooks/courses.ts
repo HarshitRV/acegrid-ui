@@ -13,6 +13,8 @@ export const courseKeys = {
   lists: () => [...courseKeys.all, 'list'] as const,
   list: (category?: CourseCategory) =>
     [...courseKeys.lists(), { category }] as const,
+  slugDetails: () => [...courseKeys.all, 'slug-detail'] as const,
+  slugDetail: (slug: string) => [...courseKeys.slugDetails(), slug] as const,
   details: () => [...courseKeys.all, 'detail'] as const,
   detail: (id: string) => [...courseKeys.details(), id] as const,
 }
@@ -29,6 +31,20 @@ export const getCoursesQueryOptions = (category?: CourseCategory) =>
 /** Custom hook to fetch and cache the list of courses */
 export const useCourses = (category?: CourseCategory) => {
   return useQuery(getCoursesQueryOptions(category))
+}
+
+/** Generates query options for fetching a single course by slug */
+export const getCourseBySlugQueryOptions = (slug: string) =>
+  queryOptions({
+    queryKey: courseKeys.slugDetail(slug),
+    queryFn: () => client.courses.getCourseBySlug(slug),
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  })
+
+/** Custom hook to fetch and cache a single course by slug */
+export const useCourseBySlug = (slug: string) => {
+  return useQuery(getCourseBySlugQueryOptions(slug))
 }
 
 /** Generates query options for fetching a single course by ID */

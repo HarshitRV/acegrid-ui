@@ -18,10 +18,11 @@ import {
 const examUrl = `${getApiUrl()}/exams`
 const adminExamUrl = `${getApiUrl()}/admin/exams`
 
-export const getAllExams = () => {
+export const getAllExams = ({ courseId }: { courseId?: string } = {}) => {
   return fetchApi(
     axios.get<ListExamsResponse>(examUrl, {
       headers: getHeaders(),
+      params: courseId ? { courseId } : undefined,
     }),
   )
 }

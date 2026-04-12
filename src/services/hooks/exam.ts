@@ -9,13 +9,14 @@ import type { AdminCreateExamBody, AdminPatchExamBody } from '#/types/exam'
 export const examKeys = {
   all: ['exams'] as const,
   lists: () => [...examKeys.all, 'list'] as const,
+  list: (courseId?: string) => [...examKeys.lists(), { courseId }] as const,
   detail: (id: string) => [...examKeys.all, 'detail', id] as const,
 }
 
-export const getExamsQueryOptions = () =>
+export const getExamsQueryOptions = (courseId?: string) =>
   queryOptions({
-    queryKey: examKeys.lists(),
-    queryFn: () => client.exams.getAllExams(),
+    queryKey: examKeys.list(courseId),
+    queryFn: () => client.exams.getAllExams({ courseId }),
     staleTime: Infinity,
     refetchOnWindowFocus: false,
   })
