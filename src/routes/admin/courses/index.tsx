@@ -27,7 +27,7 @@ function AdminCourses() {
     <main>
       <AdminHeader
         title="Courses"
-        description={`${courses.data.length} courses total`}
+        description={`${courses.data.length} courses total | ${courses.data.reduce((acc, course) => acc + course.exams.length, 0)} exams total`}
       >
         <Button
           variant="default"

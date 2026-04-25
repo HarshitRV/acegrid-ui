@@ -31,6 +31,7 @@ const columns: ColumnDef<Course>[] = [
   {
     accessorKey: 'examCount',
     header: 'Exam Count',
+    cell: ({ row }) => row.original.exams.length,
   },
   {
     accessorKey: 'createdAt',

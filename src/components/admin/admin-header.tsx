@@ -1,7 +1,7 @@
 interface AdminCourseHeaderProps {
   title: string
   description: string
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 export function AdminHeader({
