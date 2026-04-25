@@ -51,7 +51,7 @@ export function CourseCard({ course }: CourseCardProps) {
             ))}
           </div>
           <span className="text-muted-foreground flex items-center gap-1 text-xs">
-            {course.examCount} exams
+            {course.exams.length} exams
             <ChevronRight className="size-3" />
           </span>
         </CardFooter>

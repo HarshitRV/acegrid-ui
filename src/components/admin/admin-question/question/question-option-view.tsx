@@ -1,8 +1,8 @@
-import { Label } from "#/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "#/components/ui/radio-group"
-import type { Question } from "#/types/question"
-import { Check } from "lucide-react"
-import { OPTION_LABELS } from "./question-item"
+import { Label } from '#/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '#/components/ui/radio-group'
+import type { Question } from '#/types/question'
+import { Check } from 'lucide-react'
+import { OPTION_LABELS } from './question-item'
 
 export function QuestionOptionsView({
   options,
@@ -25,7 +25,7 @@ export function QuestionOptionsView({
               htmlFor={`opt-view-${opt.index}`}
               className={
                 isCorrect
-                  ? 'text-emerald-600 font-semibold dark:text-emerald-400'
+                  ? 'font-semibold text-emerald-600 dark:text-emerald-400'
                   : ''
               }
             >

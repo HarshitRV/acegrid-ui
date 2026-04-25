@@ -223,7 +223,7 @@ export function SwitchField({
   label: React.ReactNode
   description?: React.ReactNode
 }) {
-  const field = useFieldContext<boolean>();
+  const field = useFieldContext<boolean>()
   const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
   return (

@@ -12,7 +12,7 @@
     "test": "vitest run",
     "lint": "eslint",
     "format": "prettier --check .",
-    "check": "prettier --write . && eslint --fix"
+    "check": "tsc --noEmit && prettier --write . && eslint --fix"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.8",

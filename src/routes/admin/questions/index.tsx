@@ -220,9 +220,7 @@ function QuestionsList() {
           key={q._id}
           question={q}
           onDelete={(id) => console.log('Delete question:', id)}
-          onUpdate={(id, data) =>
-            console.log('Update question:', id, data)
-          }
+          onUpdate={(id, data) => console.log('Update question:', id, data)}
         />
       ))}
     </div>

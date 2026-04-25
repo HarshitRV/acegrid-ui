@@ -2,7 +2,14 @@ import type { Question } from '#/types/question'
 import { Button } from '#/components/ui/button'
 import { Badge } from '#/components/ui/badge'
 import { Trash2, Pencil } from 'lucide-react'
-import { Item, ItemActions, ItemContent, ItemFooter, ItemHeader, ItemTitle } from '#/components/ui/item'
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemFooter,
+  ItemHeader,
+  ItemTitle,
+} from '#/components/ui/item'
 import { QuestionOptionsView } from './question-option-view'
 
 export function QuestionViewMode({
