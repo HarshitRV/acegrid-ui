@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
-import { BookOpen, FileText } from 'lucide-react'
+import { BookOpen, FileText, HelpCircle } from 'lucide-react'
 
 export const Route = createFileRoute('/admin')({
   component: AdminLayout,
@@ -16,7 +16,11 @@ const navItems = [
     label: 'Exams',
     icon: <FileText className="h-4 w-4" />,
   },
-  // { to: "/admin/questions", label: "Questions", icon: <HelpCircle className="h-4 w-4" /> },
+  {
+    to: '/admin/questions',
+    label: 'Questions',
+    icon: <HelpCircle className="h-4 w-4" />,
+  },
 ]
 
 function AdminLayout() {

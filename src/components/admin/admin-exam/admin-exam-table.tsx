@@ -8,18 +8,27 @@ import {
   DropdownMenuTrigger,
 } from '#/components/ui/dropdown-menu'
 import { modal } from '#/components/ui/global-modal'
+import { getCourseByIdQueryOptions } from '#/services/hooks/courses'
 import { getExamsQueryOptions, useDeleteExam } from '#/services/hooks/exam'
 import type { Exam } from '#/types'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { Loader2, MoreVertical } from 'lucide-react'
+import { Suspense } from 'react'
 import { toast } from 'sonner'
+import { ErrorBoundary } from 'react-error-boundary'
+import { Skeleton } from '#/components/ui/skeleton'
 
 const columns: ColumnDef<Exam.Exam>[] = [
   {
     accessorKey: 'title',
     header: 'Title',
+  },
+  {
+    accessorKey: 'courseId',
+    header: 'Course',
+    cell: ({ row }) => <ExamCourseCell exam={row.original} />,
   },
   {
     accessorKey: 'duration',
@@ -56,6 +65,40 @@ export function AdminExamTable() {
     <div className="mt-6">
       <DataTable columns={columns} data={data.data} />
     </div>
+  )
+}
+
+function ExamCourseCell({ exam }: { exam: Exam.Exam }) {
+  return (
+    <ErrorBoundary
+      fallback={
+        <Link
+          to="/admin/courses/$courseId"
+          params={{ courseId: exam.courseId }}
+          className="text-destructive hover:underline"
+        >
+          {exam.courseId}
+        </Link>
+      }
+    >
+      <Suspense fallback={<Skeleton className="h-4 w-full" />}>
+        <ExamCourseCellContent courseId={exam.courseId} />
+      </Suspense>
+    </ErrorBoundary>
+  )
+}
+
+function ExamCourseCellContent({ courseId }: { courseId: string }) {
+  const { data } = useSuspenseQuery(getCourseByIdQueryOptions(courseId))
+
+  return (
+    <Link
+      to="/admin/courses/$courseId"
+      params={{ courseId }}
+      className="text-blue-500"
+    >
+      {data.course.title}
+    </Link>
   )
 }
 

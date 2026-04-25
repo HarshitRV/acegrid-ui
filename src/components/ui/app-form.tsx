@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '#/components/ui/select'
+import { Switch } from '#/components/ui/switch'
 import {
   Tooltip,
   TooltipContent,
@@ -215,6 +216,34 @@ export function NumberField({
   )
 }
 
+export function SwitchField({
+  label,
+  description,
+}: {
+  label: React.ReactNode
+  description?: React.ReactNode
+}) {
+  const field = useFieldContext<boolean>();
+  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+
+  return (
+    <Field orientation="horizontal" className="flex flex-col items-start">
+      <div className="flex space-x-2">
+        <Switch
+          id={field.name}
+          checked={field.state.value}
+          onCheckedChange={(checked) => field.handleChange(checked === true)}
+        />
+        <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
+      </div>
+      {description && (
+        <div className="text-muted-foreground text-sm">{description}</div>
+      )}
+      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+    </Field>
+  )
+}
+
 export const { useAppForm, withForm } = createFormHook({
   fieldContext,
   formContext,
@@ -223,6 +252,7 @@ export const { useAppForm, withForm } = createFormHook({
     TagField,
     SelectField,
     NumberField,
+    SwitchField,
   },
   formComponents: {},
 })

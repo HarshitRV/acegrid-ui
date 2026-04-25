@@ -43,10 +43,13 @@ export const CourseSchema = z.object({
   description: CourseDescriptionSchema.optional(),
   category: CourseCategorySchema,
   tags: z.array(CourseTagSchema).optional(),
-  examCount: z.number().int().nonnegative().optional(),
+  exams: z
+    .array(z.object({ _id: z.string(), title: z.string() }))
+    .optional()
+    .default([]),
   coverImage: CourseCoverImageSchema.optional(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
 })
 
 export type Course = z.infer<typeof CourseSchema>
@@ -56,7 +59,7 @@ export const CoursesResponseSchema = PaginatedResponseSchema(CourseSchema)
 export type CoursesResponse = z.infer<typeof CoursesResponseSchema>
 
 export const CourseByIdResponseSchema = z.object({
-  course: CourseSchema.omit({ examCount: true }),
+  course: CourseSchema.omit({ exams: true }),
   exams: z.array(
     ExamSchema.omit({ questionCount: true, freeQuestionCount: true }),
   ),
