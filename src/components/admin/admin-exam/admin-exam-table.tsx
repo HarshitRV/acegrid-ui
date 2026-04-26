@@ -92,13 +92,11 @@ function ExamCourseCellContent({ courseId }: { courseId: string }) {
   const { data } = useSuspenseQuery(getCourseByIdQueryOptions(courseId))
 
   return (
-    <Link
-      to="/admin/courses/$courseId"
-      params={{ courseId }}
-      className="text-blue-500"
-    >
-      {data.course.title}
-    </Link>
+    <Button asChild className="text-blue-500" variant="link">
+      <Link to="/admin/courses/$courseId" params={{ courseId }}>
+        {data.course.title}
+      </Link>
+    </Button>
   )
 }
 

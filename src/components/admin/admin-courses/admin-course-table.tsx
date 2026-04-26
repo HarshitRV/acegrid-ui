@@ -15,7 +15,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '#/components/ui/dropdown-menu'
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigate, Link } from '@tanstack/react-router'
 import { modal } from '#/components/ui/global-modal'
 import { toast } from 'sonner'
 
@@ -23,6 +23,16 @@ const columns: ColumnDef<Course>[] = [
   {
     accessorKey: 'title',
     header: 'Title',
+    cell: ({ row }) => {
+      const course = row.original
+      return (
+        <Button asChild variant="link" className="text-blue-500">
+          <Link to="/admin/courses/$courseId" params={{ courseId: course._id }}>
+            {course.title}
+          </Link>
+        </Button>
+      )
+    },
   },
   {
     accessorKey: 'category',
